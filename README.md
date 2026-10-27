@@ -45,6 +45,13 @@ The consumer provides CommonLibF4, spdlog and nlohmann_json, and its pch must in
 `fusionframework/PapyrusCompat.h` (after `RE/Fallout.h`): the framework compiles those Papyrus
 specializations into the DLL, so every translation unit has to see them.
 
-## More
+## License
 
-- [AI contributions](AI_CONTRIBUTIONS.md)
+Copyright (C) 2026 Bryant-21
+
+Fusion Framework is free software: you can redistribute it and/or modify it under the terms of the
+GNU General Public License as published by the Free Software Foundation, either version 3 of the
+License, or (at your option) any later version (`GPL-3.0-or-later`). See [LICENSE](LICENSE).
+
+MinHook keeps its own license ([vendor/minhook/LICENSE.txt](vendor/minhook/LICENSE.txt)). How AI tools
+were used: [AI_CONTRIBUTIONS.md](AI_CONTRIBUTIONS.md).
