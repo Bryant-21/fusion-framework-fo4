@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <mutex>
 #include <vector>
 
 namespace fusionframework::actors {
@@ -19,6 +20,9 @@ UpdateFn originalUpdateMagic{};
 std::vector<Callback> perFrame;
 std::vector<Callback> everyRestore;
 thread_local RE::Actor* updatingMagic{};
+// UpdateMagic runs on parallel actor-update jobs and consumers keep unlocked per-actor globals. Recursive: a callback
+// can make the engine restore the same actor again on this thread.
+std::recursive_mutex perFrameLock;
 
 void Add(std::vector<Callback>& list, Callback callback)
 {
@@ -31,8 +35,10 @@ void RestoreHealth(RE::Actor* actor, float seconds)
     originalRestore(actor, seconds);
     if (!actor) return;
     for (const auto callback : everyRestore) callback(actor, seconds);
-    if (actor == updatingMagic && std::isfinite(seconds) && seconds > 0.0F)
+    if (actor == updatingMagic && std::isfinite(seconds) && seconds > 0.0F) {
+        const std::scoped_lock lock(perFrameLock);
         for (const auto callback : perFrame) callback(actor, seconds);
+    }
 }
 
 void UpdateMagic(RE::Actor* actor, float seconds)

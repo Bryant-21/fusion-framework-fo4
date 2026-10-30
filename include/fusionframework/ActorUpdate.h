@@ -6,8 +6,9 @@ namespace RE { class Actor; }
 namespace fusionframework::actors {
 using Callback = void (*)(RE::Actor* actor, float seconds);
 
-// Per actor, per frame, on the game thread (game time: paused with the game): Actor::RestoreHealth when
-// Actor::UpdateMagic calls it, after the native restore. Calls with no elapsed time are skipped.
+// Per actor, per frame (game time: paused with the game): Actor::RestoreHealth when Actor::UpdateMagic calls it,
+// after the native restore. Calls with no elapsed time are skipped. UpdateMagic runs on parallel actor-update job
+// threads, not the main thread; these callbacks are serialized, one at a time across all threads.
 void OnUpdate(Callback callback);
 // Every Actor::RestoreHealth call, whoever makes it, after the native restore.
 void OnRestoreHealth(Callback callback);

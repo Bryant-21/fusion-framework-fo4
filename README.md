@@ -13,6 +13,7 @@ into each consumer's own plugin DLL (like Fusion UI), so every mod ships and rel
 | `fusionframework/PluginToml.h` | `config::LoadPluginToml(plugin)`: `Data/F4SE/Plugins/<plugin>.toml`, logged, defaults when missing |
 | `fusionframework/Hooks.h` | `hooks::Install(hooks, feature)`: all-or-nothing MinHook install (REL::ID or VariantID) with rollback |
 | `fusionframework/ActorUpdate.h` | `actors::OnUpdate` (per actor, per frame: RestoreHealth inside UpdateMagic), `actors::OnRestoreHealth`, `actors::Install()` |
+| `fusionframework/Busy.h` | `busy::Set/Clear/Active`: work that must finish before the player starts or loads a game (F4FS shader compile); menus wait while one is set |
 | `fusionframework/Task.h` | `task::Every(interval, gate, tick)`: coalesced game-thread ticker |
 | `fusionframework/SourceTemplates.h` | `forms::TemplateSource(actor, category)`: the NPC that owns a template category |
 | `fusionframework/TalesMapContract.h` | Tales ↔ Full Screen Map message contract (`tales_map`) |
